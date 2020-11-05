@@ -1,3 +1,10 @@
+<?php 
+
+  if(isset($_GET['alert'])){
+    $alert = 1;
+  }else $alert = 0;
+?>
+
 <!DOCTYPE html>
 <html>
   <head>
@@ -46,16 +53,22 @@
             <div class="col-lg-6">
               <div class="form d-flex align-items-center">
                 <div class="content">
-                  <form method="POST" class="form-validate mb-4">
+                  <?php if($alert==1){ ?>
+                  <div class="alert alert-danger alert-dismissible">
+                    <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                    <strong>อีเมลหรือรหัสผ่านผิด</strong> กรุณากรอกอีเมลหรือรหัสผ่านใหม่
+                  </div>
+                  <?php } ?>
+                  <form method="POST" action="check-login.php" class="form-validate mb-4">
                     <div class="form-group">
-                      <input id="login-username" type="text" name="loginUsername" required data-msg="Please enter your username" class="input-material">
-                      <label for="login-username" class="label-material">Username</label>
+                      <input id="login-username" type="email" name="loginEmail" required data-msg="Please enter your login email" class="input-material">
+                      <label for="login-username" class="label-material">Email</label>
                     </div>
                     <div class="form-group">
                       <input id="login-password" type="password" name="loginPassword" required data-msg="Please enter your password" class="input-material">
                       <label for="login-password" class="label-material">Password</label>
                     </div>
-                    <button type="submit" class="btn btn-primary" href="index.html">Login</button>
+                    <button type="submit" class="btn btn-primary" name="login">Login</button>
                   </form>
                 </div>
               </div>

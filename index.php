@@ -1,3 +1,7 @@
+<?php 
+  include 'auth.php';
+?>
+
 <!DOCTYPE html>
 <html>
   <head> 
@@ -23,10 +27,10 @@
     <link rel="shortcut icon" href="img/favicon.ico">
 
     <!-- The core Firebase JS SDK is always required and must be listed first -->
-    <script src="https://www.gstatic.com/firebasejs/7.19.1/firebase-app.js"></script>
+    <scrip src="https://www.gstatic.com/firebasejs/7.19.1/firebase-app.js"></scrip>
 
     <!-- fix error firebase.database is not a function -->
-    <script src="https://www.gstatic.com/firebasejs/7.19.1/firebase-auth.js"></script>
+    <scrip src="https://www.gstatic.com/firebasejs/7.19.1/firebase-auth.js"></scrip>
     <script src="https://www.gstatic.com/firebasejs/7.19.1/firebase-database.js"></script>
 
     <!-- TODO: Add SDKs for Firebase products that you want to use
@@ -47,7 +51,7 @@
           <div class="right-menu list-inline no-margin-bottom">    
             <!-- Log out -->
             <div class="list-inline-item logout">
-              <a id="logout" href="login.html" class="nav-link">
+              <a id="logout" href="logout.php" class="nav-link">
                 <span class="d-none d-sm-inline">Logout </span>
                 <i class="icon-logout"></i>
               </a>
@@ -63,7 +67,7 @@
         <div class="sidebar-header d-flex align-items-center">
           <div class="avatar"><img src="img/avatar.svg" alt="..." class="img-fluid rounded-circle"></div>
           <div class="title">
-            <h1 class="h5">Nada Chemreh</h1>
+            <h1 class="h5"><?=$_SESSION['name']; ?></h1>
             <p>Administrator</p>
           </div>
         </div>
@@ -72,10 +76,10 @@
           <li class="active"><a href="index.html"> <i class="icon-writing-whiteboard"></i>Dashboard </a></li>
           <li><a href="#exampledropdownDropdown" aria-expanded="false" data-toggle="collapse"> <i class="icon-user"></i>Member </a>
             <ul id="exampledropdownDropdown" class="collapse list-unstyled ">
-              <li><a href="#">Nada Chemreh</a></li>
-              <li><a href="#">Patipon Pankaew</a></li>
-              <li><a href="#">Kritsanaphong Muninnopphamat</a></li>
-              <li><a href="#">Jirapong Songniam</a></li>
+              <li><a href="https://www.facebook.com/nada.the.unknown" target="_blank">Nada Chemreh</a></li>
+              <li><a href="https://www.facebook.com/nZk.Rikuto/" target="_blank">Patipon Pankaew</a></li>
+              <li><a href="https://www.facebook.com/SnaplerZ" target="_blank">Kritsanaphong Muninnopphamat</a></li>
+              <li><a href="https://www.facebook.com/profile.php?id=100012714318389" target="_blank">Jirapong Songniam</a></li>
             </ul>
           </li>
         </ul>

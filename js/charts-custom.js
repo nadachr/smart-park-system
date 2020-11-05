@@ -1,4 +1,100 @@
 /*global $, document*/
+window.onload = function () {
+    var BARCHARTEXMPLE    = $('#barChart');
+    window.chartSensor = new Chart(BARCHARTEXMPLE,sensor);
+};
+
+var sensor = {
+    type: 'bar',
+    options: {
+        scales: {
+            xAxes: [{
+                display: true,
+                gridLines: {
+                    color: 'transparent'
+                }
+            }],
+            yAxes: [{
+                display: true,
+                gridLines: {
+                    color: 'transparent'
+                }
+            }]
+        },
+    },
+    data: {
+        labels: ["November","November"],
+        datasets: [
+            {
+                label: "People",
+                backgroundColor: [
+                    "#fffb00",
+                    "#fffb00",
+                    "#fffb00",
+                    "#fffb00",
+                    "#fffb00",
+                    "#fffb00",
+                    "#fffb00"
+                ],
+                hoverBackgroundColor: [
+                    "#fffb00",
+                    "#fffb00",
+                    "#fffb00",
+                    "#fffb00",
+                    "#fffb00",
+                    "#fffb00",
+                    "#fffb00"
+                ],
+                borderColor: [
+                    "#fffb00",
+                    "#fffb00",
+                    "#fffb00",
+                    "#fffb00",
+                    "#fffb00",
+                    "#fffb00",
+                    "#fffb00"
+                ],
+                borderWidth: 0.5,
+                data: [],
+            },
+            {
+                label: "Vehicle",
+                backgroundColor: [
+                    "#00ff88",
+                    "#00ff88",
+                    "#00ff88",
+                    "#00ff88",
+                    "#00ff88",
+                    "#00ff88",
+                    "#00ff88"
+                ],
+                hoverBackgroundColor: [
+                    "#00ff88",
+                    "#00ff88",
+                    "#00ff88",
+                    "#00ff88",
+                    "#00ff88",
+                    "#00ff88",
+                    "#00ff88"
+                ],
+                borderColor: [
+                    "#00ff88",
+                    "#00ff88",
+                    "#00ff88",
+                    "#00ff88",
+                    "#00ff88",
+                    "#00ff88",
+                    "#00ff88"
+                ],
+                borderWidth: 0.5,
+                data: [],
+            }
+        ]
+    }
+};
+
+
+
 var firebaseConfig = {
     apiKey: "AIzaSyBBYQjQRwalw7afWl4NkgDoKNidcp3QSLA",
     authDomain: "peoplencardetect.firebaseapp.com",
@@ -25,153 +121,49 @@ var valp = 0;
 var valc = 0;
 var disp = false;
 
-database.ref("pnc").once('value').then(function(snapshot){
-    if(snapshot.exists()){
-        var pc = snapshot.val();
-        for(var key of Object.keys(pc)){
-            var pc2 = pc[key];
-
-            for(var key2 of Object.keys(pc2)){
-                if(key2 == "datetime"){
-                    var day = pc2[key2].substr(0,10);
-                    if(now == day){
-                        disp = true;
-                    }
-                    else{
-                        disp = false;
-                    }
-                }
-                if(disp == true){
-                    if(pc2["Person"] == "1" && pc2["Car"] == "1"){
-                        valp = valp+1; //people num
-                        valc = valc+1;  //car num
-                    }
-                    else if(pc2["Person"] == "1" && pc2["Car"] == "0"){
-                        valp = valp+1;
-                    }
-                    else if(pc2["Person"] == "0" && pc2["Car"] == "1"){
-                        valc = valc+1;
-                    }else{
-                        valc = valc;
-                        valp = valp;
-                    }
-                }
-
-                
-            }
-        } 
-    }                  
-});
 
 setInterval(function(){
-  people.innerHTML = valp;
-  car.innerHTML = valc;
-    sensor.data.dataset[0].data.push(valp);
-    sensor.data.dataset[1].data.push(valc);
+    database.ref("pnc").once('value').then(function(snapshot){
+        if(snapshot.exists()){
+            var pc = snapshot.val();
+            for(var key of Object.keys(pc)){
+                var pc2 = pc[key];
+
+                for(var key2 of Object.keys(pc2)){
+                    if(key2 == "date"){
+                        var day = pc2[key2];
+                        if(now == day){
+                            disp = true;
+                        }
+                        else{
+                            disp = false;
+                        }
+                    }
+                    if(disp == true){
+                        if(key2 == "Total_person"){
+                            valp = pc2[key2];
+                            people.innerHTML = valp;
+                        }
+                        else if(key2 == "Total_car"){
+                            valc = pc2[key2];
+                            car.innerHTML = valc;
+                        }
+                    }
+                }window.chartSensor.update();
+            } 
+        }  
+        sensor.data.datasets[0].data.push(valp);
+        sensor.data.datasets[1].data.push(valc);     
+
+        
+        console.log("now: ",now);
+        console.log("date: ", day);       
+    })
 }, 1000);
 
 
-
-$(document).ready(function () {
-
-    'use strict';
-
-
-
-    Chart.defaults.global.defaultFontColor = '#75787c';
-        
-    var sensor = {
-        type: 'bar',
-        options: {
-            scales: {
-                xAxes: [{
-                    display: true,
-                    gridLines: {
-                        color: 'transparent'
-                    }
-                }],
-                yAxes: [{
-                    display: true,
-                    gridLines: {
-                        color: 'transparent'
-                    }
-                }]
-            },
-        },
-        data: {
-            labels: ["January", "February", "March", "April", "May", "June", "July"],
-            datasets: [
-                {
-                    label: "People",
-                    backgroundColor: [
-                        "#fffb00",
-                        "#fffb00",
-                        "#fffb00",
-                        "#fffb00",
-                        "#fffb00",
-                        "#fffb00",
-                        "#fffb00"
-                    ],
-                    hoverBackgroundColor: [
-                        "#fffb00",
-                        "#fffb00",
-                        "#fffb00",
-                        "#fffb00",
-                        "#fffb00",
-                        "#fffb00",
-                        "#fffb00"
-                    ],
-                    borderColor: [
-                        "#fffb00",
-                        "#fffb00",
-                        "#fffb00",
-                        "#fffb00",
-                        "#fffb00",
-                        "#fffb00",
-                        "#fffb00"
-                    ],
-                    borderWidth: 0.5,
-                    data: [],
-                },
-                {
-                    label: "Vehicle",
-                    backgroundColor: [
-                        "#00ff88",
-                        "#00ff88",
-                        "#00ff88",
-                        "#00ff88",
-                        "#00ff88",
-                        "#00ff88",
-                        "#00ff88"
-                    ],
-                    hoverBackgroundColor: [
-                        "#00ff88",
-                        "#00ff88",
-                        "#00ff88",
-                        "#00ff88",
-                        "#00ff88",
-                        "#00ff88",
-                        "#00ff88"
-                    ],
-                    borderColor: [
-                        "#00ff88",
-                        "#00ff88",
-                        "#00ff88",
-                        "#00ff88",
-                        "#00ff88",
-                        "#00ff88",
-                        "#00ff88"
-                    ],
-                    borderWidth: 0.5,
-                    data: [],
-                }
-            ]
-        }
-    }
-
-    // ------------------------------------------------------- //
-    // Bar Chart
-    // ------------------------------------------------------ //
-    var BARCHARTEXMPLE    = $('#barChart');
-    var barChartExample = new Chart(BARCHARTEXMPLE,sensor);
-});
+// setInterval(function(){
+//   people.innerHTML = valp;
+//   car.innerHTML = valc;
+//     
+// }, 1000);
