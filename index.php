@@ -26,16 +26,17 @@
     <!-- Favicon-->
     <link rel="shortcut icon" href="img/favicon.ico">
 
-    <!-- The core Firebase JS SDK is always required and must be listed first -->
-    <scrip src="https://www.gstatic.com/firebasejs/7.19.1/firebase-app.js"></scrip>
+    <!-- Firebase App (the core Firebase SDK) is always required and must be listed first -->
+    <script src="https://www.gstatic.com/firebasejs/8.0.0/firebase-app.js"></script>
 
-    <!-- fix error firebase.database is not a function -->
-    <scrip src="https://www.gstatic.com/firebasejs/7.19.1/firebase-auth.js"></scrip>
-    <script src="https://www.gstatic.com/firebasejs/7.19.1/firebase-database.js"></script>
+    <!-- If you enabled Analytics in your project, add the Firebase SDK for Analytics -->
+    <script src="https://www.gstatic.com/firebasejs/8.0.0/firebase-analytics.js"></script>
 
-    <!-- TODO: Add SDKs for Firebase products that you want to use
-     https://firebase.google.com/docs/web/setup#available-libraries -->
-    <script src="https://www.gstatic.com/firebasejs/7.24.0/firebase-analytics.js"></script>
+    <!-- Add Firebase products that you want to use -->
+    <script src="https://www.gstatic.com/firebasejs/8.0.0/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.0.0/firebase-firestore.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.0.0/firebase-database.js"></script>
+
   </head>
   <body>
     <header class="header">   
@@ -148,10 +149,102 @@
     <script src="vendor/jquery-validation/jquery.validate.min.js"></script>
     <script src="js/charts-custom.js"></script>
     <script src="js/front.js"></script>
-<!--
-    <script>
-      // Your web app's Firebase configuration
-      // For Firebase JS SDK v7.20.0 and later, measurementId is optional
+    <!-- <script>
+      /*global $, document*/
+      window.onload = function () {
+          var BARCHARTEXMPLE    = $('#barChart');
+          window.chartSensor = new Chart(BARCHARTEXMPLE,sensor);
+      };
+
+      var sensor = {
+          type: 'bar',
+          options: {
+              scales: {
+                  xAxes: [{
+                      display: true,
+                      gridLines: {
+                          color: 'transparent'
+                      }
+                  }],
+                  yAxes: [{
+                      display: true,
+                      gridLines: {
+                          color: 'transparent'
+                      }
+                  }]
+              },
+          },
+          data: {
+              labels: ["November","November"],
+              datasets: [
+                  {
+                      label: "People",
+                      backgroundColor: [
+                          "#fffb00",
+                          "#fffb00",
+                          "#fffb00",
+                          "#fffb00",
+                          "#fffb00",
+                          "#fffb00",
+                          "#fffb00"
+                      ],
+                      hoverBackgroundColor: [
+                          "#fffb00",
+                          "#fffb00",
+                          "#fffb00",
+                          "#fffb00",
+                          "#fffb00",
+                          "#fffb00",
+                          "#fffb00"
+                      ],
+                      borderColor: [
+                          "#fffb00",
+                          "#fffb00",
+                          "#fffb00",
+                          "#fffb00",
+                          "#fffb00",
+                          "#fffb00",
+                          "#fffb00"
+                      ],
+                      borderWidth: 0.5,
+                      data: [],
+                  },
+                  {
+                      label: "Vehicle",
+                      backgroundColor: [
+                          "#00ff88",
+                          "#00ff88",
+                          "#00ff88",
+                          "#00ff88",
+                          "#00ff88",
+                          "#00ff88",
+                          "#00ff88"
+                      ],
+                      hoverBackgroundColor: [
+                          "#00ff88",
+                          "#00ff88",
+                          "#00ff88",
+                          "#00ff88",
+                          "#00ff88",
+                          "#00ff88",
+                          "#00ff88"
+                      ],
+                      borderColor: [
+                          "#00ff88",
+                          "#00ff88",
+                          "#00ff88",
+                          "#00ff88",
+                          "#00ff88",
+                          "#00ff88",
+                          "#00ff88"
+                      ],
+                      borderWidth: 0.5,
+                      data: [],
+                  }
+              ]
+          }
+      };
+
       var firebaseConfig = {
           apiKey: "AIzaSyBBYQjQRwalw7afWl4NkgDoKNidcp3QSLA",
           authDomain: "peoplencardetect.firebaseapp.com",
@@ -178,50 +271,45 @@
       var valc = 0;
       var disp = false;
 
-      database.ref("pnc").once('value').then(function(snapshot){
-          if(snapshot.exists()){
-              var pc = snapshot.val();
-              for(var key of Object.keys(pc)){
-                  var pc2 = pc[key];
 
-                  for(var key2 of Object.keys(pc2)){
-                      if(key2 == "datetime"){
-                          var day = pc2[key2].substr(0,10);
-                          if(now == day){
-                              disp = true;
-                          }
-                          else{
-                              disp = false;
-                          }
-                      }
-                      if(disp == true){
-                          if(pc2["Person"] == "1" && pc2["Car"] == "1"){
-                              valp = valp+1; //people num
-                              valc = valc+1;  //car num
-                          }
-                          else if(pc2["Person"] == "1" && pc2["Car"] == "0"){
-                              valp = valp+1;
-                          }
-                          else if(pc2["Person"] == "0" && pc2["Car"] == "1"){
-                              valc = valc+1;
-                          }else{
-                              valc = valc;
-                              valp = valp;
-                          }
-                      }
-
-                      
-                  }
-              } 
-          }                  
-      });
-      
       setInterval(function(){
-        people.innerHTML = valp;
-        car.innerHTML = valc;
-      }, 1000);
+          database.ref("pnc").once('value').then(function(snapshot){
+              if(snapshot.exists()){
+                  var pc = snapshot.val();
+                  for(var key of Object.keys(pc)){
+                      var pc2 = pc[key];
 
-    </script>
--->
+                      for(var key2 of Object.keys(pc2)){
+                          if(key2 == "date"){
+                              var day = pc2[key2];
+                              if(now == day){
+                                  disp = true;
+                              }
+                              else{
+                                  disp = false;
+                              }
+                          }
+                          if(disp == true){
+                              if(key2 == "Total_person"){
+                                  valp = pc2[key2];
+                                  people.innerHTML = valp;
+                              }
+                              else if(key2 == "Total_car"){
+                                  valc = pc2[key2];
+                                  car.innerHTML = valc;
+                              }
+                          }
+                      }window.chartSensor.update();
+                  } 
+              }  
+              sensor.data.datasets[0].data.push(valp);
+              sensor.data.datasets[1].data.push(valc);     
+
+              
+              console.log("now: ",now);
+              console.log("date: ", day);       
+          })
+      }, 1000);
+    </script> -->
   </body>
 </html>

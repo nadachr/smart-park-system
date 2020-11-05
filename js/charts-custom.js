@@ -1,3 +1,4 @@
+
 /*global $, document*/
 window.onload = function () {
     var BARCHARTEXMPLE    = $('#barChart');
@@ -92,8 +93,6 @@ var sensor = {
         ]
     }
 };
-
-
 
 var firebaseConfig = {
     apiKey: "AIzaSyBBYQjQRwalw7afWl4NkgDoKNidcp3QSLA",
