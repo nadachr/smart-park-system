@@ -109,15 +109,17 @@ firebase.initializeApp(firebaseConfig);
 firebase.analytics();
 var database = firebase.database();
 var people = document.getElementById('pp');
+var peoples = document.getElementById('pps');
 var car = document.getElementById('car');
+var cars = document.getElementById('cars');
 //var datenow = document.getElementById('datenow');
 var date = new Date();
 var d = date.getDate();
 var m = date.getMonth() + 1;
 var y = date.getFullYear();
 var now = y + "-" + m + "-" + d;
-var valp = 0;
-var valc = 0;
+valp = 0;
+valc = 0;
 var disp = false;
 
 
@@ -138,14 +140,16 @@ setInterval(function(){
                             disp = false;
                         }
                     }
-                    if(disp == true){
+                    if(disp == false){
                         if(key2 == "Total_person"){
-                            valp = pc2[key2];
+                            valp = pc2[key2];           //ค่าคนที่จะนำเข้าฐานข้อมูล mySql 
                             people.innerHTML = valp;
+                            peoples.value = valp;
                         }
                         else if(key2 == "Total_car"){
-                            valc = pc2[key2];
+                            valc = pc2[key2];           //ค่ารถที่จะนำเข้าฐานข้อมูล mySql 
                             car.innerHTML = valc;
+                            cars.value = valc;        
                         }
                     }
                 }window.chartSensor.update();
@@ -153,13 +157,51 @@ setInterval(function(){
         }  
         sensor.data.datasets[0].data.push(valp);
         sensor.data.datasets[1].data.push(valc);     
-
         
         console.log("now: ",now);
         console.log("date: ", day);       
+        
     })
+
+    //postData(valc, valp);
+    
 }, 1000);
 
+
+if (window.XMLHttpRequest){
+            xmlhttp = new XMLHttpRequest();
+        }
+        
+        else{
+            xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
+        }
+        
+        var PageToSendTo = "check.php?";
+        var MyVariable = valc;
+        var VariablePlaceholder = "car=";
+        var UrlToSend = PageToSendTo + VariablePlaceholder + MyVariable;
+        
+        xmlhttp.open("GET", UrlToSend, false);
+        xmlhttp.send();
+        
+        console.log(UrlToSend);
+// function postData(valc, valp){
+//     var data = [];
+//     var val = {};
+
+//     val.c = valc;
+//     val.p = valp;
+//     data.push(val);
+
+//     //console.log(data);
+//     $.ajax({
+//         url: "data.php",
+//         method: "post",
+//         data: { data : JSON.stringify ( data ) },
+//         success: function(res){
+//         }
+//     })
+// }
 
 // setInterval(function(){
 //   people.innerHTML = valp;

@@ -102,6 +102,7 @@
                       <div class="icon"><i class="fa fa-users fa-4x mb-2"></i></div><strong>People detected</strong>
                     </div>
                     <div class="number dashtext-1" id="pp"></div>
+                    <input type="text" id="pps" value="">
                   </div>
                   <div class="progress progress-template">
                     <div role="progressbar" style="width: 100%" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100" class="progress-bar progress-bar-template dashbg-1"></div>
@@ -115,9 +116,50 @@
                       <div class="icon"><i class="fa fa-motorcycle fa-4x mb-2"></i></div><strong>Vehicle detected</strong>
                     </div>
                     <div class="number dashtext-2" id="car"></div>
+                    <input type="text" id="cars" value="">
                   </div>
                   <div class="progress progress-template">
                     <div role="progressbar" style="width: 100%" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100" class="progress-bar progress-bar-template dashbg-2"></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+        <section>
+          <div class="container-fluid">
+            <div class="row">
+              <div class="col-lg-12">
+                <div class="block">
+                  <div class="title"><strong>จำนวนคน</strong></div>
+                  <a href='check.php?car=<?php echo $cars?>'>TEST</a>
+                  <div class="table-responsive"> 
+                    <table class="table table-striped table-hover">
+                      <thead>
+                        <tr>
+                          <th>Month</th>
+                          <th>Car</th>
+                          <th>People</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr>
+                          <th scope="row">January</th>
+                          <td></td>
+                          <td></td>
+                        </tr>
+                        <tr>
+                          <th scope="row">Febuary</th>
+                          <td>Jacob</td>
+                          <td>Thornton</td>
+                        </tr>
+                        <tr>
+                          <th scope="row">March</th>
+                          <td>Larry</td>
+                          <td>the Bird</td>
+                        </tr>
+                      </tbody>
+                    </table>
                   </div>
                 </div>
               </div>
@@ -311,5 +353,6 @@
           })
       }, 1000);
     </script> -->
+
   </body>
 </html>
