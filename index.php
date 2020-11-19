@@ -1,5 +1,51 @@
 <?php 
   include 'auth.php';
+  include 'condb.php';
+
+  function getTotalCar($con, $month) {
+    $sql = "SELECT SUM(total_car) car FROM total WHERE date LIKE '2020-$month-%'";
+    $result = mysqli_query($con, $sql);
+    foreach($result as $row){
+      $car = $row['car'];
+    }
+    return $car;
+  }
+
+  function getTotalPp($con, $month) {
+    $sql = "SELECT SUM(total_people) people FROM total WHERE date LIKE '2020-$month-%'";
+    $result = mysqli_query($con, $sql);
+    foreach($result as $row){
+      $people = $row['people'];
+    }
+    return $people;
+  }
+
+  $car_jan = getTotalCar($con, 1);
+  $pp_jan = getTotalPp($con, 1);
+  $car_feb = getTotalCar($con, 2);
+  $pp_feb = getTotalPp($con, 2);
+  $car_mar = getTotalCar($con, 3);
+  $pp_mar = getTotalPp($con, 3);
+  $car_apr = getTotalCar($con, 4);
+  $pp_apr = getTotalPp($con, 4);
+  $car_may = getTotalCar($con, 5);
+  $pp_may = getTotalPp($con, 5);
+  $car_june = getTotalCar($con, 6);
+  $pp_june = getTotalPp($con, 6);
+  $car_july = getTotalCar($con, 7);
+  $pp_july = getTotalPp($con, 7);
+  $car_aug = getTotalCar($con, 8);
+  $pp_aug = getTotalPp($con, 8);
+  $car_sep = getTotalCar($con, 9);
+  $pp_sep = getTotalPp($con, 9);
+  $car_oct = getTotalCar($con, 10);
+  $pp_oct = getTotalPp($con, 10);
+  $car_nov = getTotalCar($con, 11);
+  $pp_nov = getTotalPp($con, 11);
+  $car_dec = getTotalCar($con, 12);
+  $pp_dec = getTotalPp($con, 12);
+  
+
 ?>
 
 <!DOCTYPE html>
@@ -24,7 +70,7 @@
     <!-- Custom stylesheet - for your changes-->
     <link rel="stylesheet" href="css/custom.css">
     <!-- Favicon-->
-    <link rel="shortcut icon" href="img/favicon.ico">
+    <link rel="shortcut icon" href="img/favicon.jpg">
 
     <!-- Firebase App (the core Firebase SDK) is always required and must be listed first -->
     <script src="https://www.gstatic.com/firebasejs/8.0.0/firebase-app.js"></script>
@@ -74,7 +120,7 @@
         </div>
         <!-- Sidebar Navidation Menus--><span class="heading">Main</span>
         <ul class="list-unstyled">
-          <li class="active"><a href="index.html"> <i class="icon-writing-whiteboard"></i>Dashboard </a></li>
+          <li class="active"><a href="index.php"> <i class="icon-writing-whiteboard"></i>Dashboard </a></li>
           <li><a href="#exampledropdownDropdown" aria-expanded="false" data-toggle="collapse"> <i class="icon-user"></i>Member </a>
             <ul id="exampledropdownDropdown" class="collapse list-unstyled ">
               <li><a href="https://www.facebook.com/nada.the.unknown" target="_blank">Nada Chemreh</a></li>
@@ -95,17 +141,16 @@
         <section class="no-padding-top no-padding-bottom">
           <div class="container-fluid">
             <div class="row">
-              <div class="col-md-6 col-sm-6">
+            <div class="col-md-6 col-sm-6">
                 <div class="statistic-block block">
                   <div class="progress-details d-flex align-items-end justify-content-between">
                     <div class="title">
-                      <div class="icon"><i class="fa fa-users fa-4x mb-2"></i></div><strong>People detected</strong>
+                      <div class="icon"><i class="fa fa-motorcycle fa-4x mb-2"></i></div><strong>Vehicle detected</strong>
                     </div>
-                    <div class="number dashtext-1" id="pp"></div>
-                    <input type="text" id="pps" value="">
+                    <div class="number dashtext-2 h1" style="font-size: 80px;" id="car"></div>
                   </div>
                   <div class="progress progress-template">
-                    <div role="progressbar" style="width: 100%" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100" class="progress-bar progress-bar-template dashbg-1"></div>
+                    <div role="progressbar" style="width: 100%" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100" class="progress-bar progress-bar-template dashbg-2"></div>
                   </div>
                 </div>
               </div>
@@ -113,13 +158,12 @@
                 <div class="statistic-block block">
                   <div class="progress-details d-flex align-items-end justify-content-between">
                     <div class="title">
-                      <div class="icon"><i class="fa fa-motorcycle fa-4x mb-2"></i></div><strong>Vehicle detected</strong>
+                      <div class="icon"><i class="fa fa-users fa-4x mb-2"></i></div><strong>People detected</strong>
                     </div>
-                    <div class="number dashtext-2" id="car"></div>
-                    <input type="text" id="cars" value="">
+                    <div class="number dashtext-1 h1" style="font-size: 80px;" id="pp"></div>
                   </div>
                   <div class="progress progress-template">
-                    <div role="progressbar" style="width: 100%" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100" class="progress-bar progress-bar-template dashbg-2"></div>
+                    <div role="progressbar" style="width: 100%" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100" class="progress-bar progress-bar-template dashbg-1"></div>
                   </div>
                 </div>
               </div>
@@ -131,49 +175,79 @@
             <div class="row">
               <div class="col-lg-12">
                 <div class="block">
-                  <div class="title"><strong>จำนวนคน</strong></div>
-                  <a href='check.php?car=<?php echo $cars?>'>TEST</a>
+                  <div class="title h3"><strong>สถิติตลอดปี</strong></div>
                   <div class="table-responsive"> 
                     <table class="table table-striped table-hover">
                       <thead>
-                        <tr>
-                          <th>Month</th>
-                          <th>Car</th>
+                        <tr align="center" class="number dashtext-1 h4">
+                          <th class="dashtext-3" width="200px">Month</th>
+                          <th class="dashtext-2">Car</th>
                           <th>People</th>
                         </tr>
                       </thead>
-                      <tbody>
+                      <tbody align="center" class="h5">
                         <tr>
                           <th scope="row">January</th>
-                          <td></td>
-                          <td></td>
+                          <td><?= $car_jan;?></td>
+                          <td><?= $pp_jan;?></td>
                         </tr>
                         <tr>
                           <th scope="row">Febuary</th>
-                          <td>Jacob</td>
-                          <td>Thornton</td>
+                          <td><?= $car_feb;?></td>
+                          <td><?= $pp_feb;?></td>
                         </tr>
                         <tr>
                           <th scope="row">March</th>
-                          <td>Larry</td>
-                          <td>the Bird</td>
+                          <td><?= $car_mar;?></td>
+                          <td><?= $pp_mar;?></td>
+                        </tr>
+                        <tr>
+                          <th scope="row">April</th>
+                          <td><?= $car_apr;?></td>
+                          <td><?= $pp_apr;?></td>
+                        </tr>
+                        <tr>
+                          <th scope="row">May</th>
+                          <td><?= $car_may;?></td>
+                          <td><?= $pp_may;?></td>
+                        </tr>
+                        <tr>
+                          <th scope="row">June</th>
+                          <td><?= $car_june;?></td>
+                          <td><?= $pp_june;?></td>
+                        </tr>
+                        <tr>
+                          <th scope="row">July</th>
+                          <td><?= $car_july;?></td>
+                          <td><?= $pp_july;?></td>
+                        </tr>
+                        <tr>
+                          <th scope="row">August</th>
+                          <td><?= $car_aug;?></td>
+                          <td><?= $pp_aug;?></td>
+                        </tr>
+                        <tr>
+                          <th scope="row">September</th>
+                          <td><?= $car_sep;?></td>
+                          <td><?= $pp_sep;?></td>
+                        </tr>
+                        <tr>
+                          <th scope="row">October</th>
+                          <td><?= $car_oct;?></td>
+                          <td><?= $pp_oct;?></td>
+                        </tr>
+                        <tr>
+                          <th scope="row">November</th>
+                          <td><?= $car_nov;?></td>
+                          <td><?= $pp_nov;?></td>
+                        </tr>
+                        <tr>
+                          <th scope="row">December</th>
+                          <td><?= $car_dec;?></td>
+                          <td><?= $pp_dec;?></td>
                         </tr>
                       </tbody>
                     </table>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </section>
-        <section>
-          <div class="container-fluid">
-            <div class="row">
-              <div class="col-lg-12">
-                <div class="bar-chart block chart">
-                  <div class="title"><strong>Total Detected </strong></div>
-                  <div class="bar-chart chart">
-                    <canvas id="barChart"></canvas>
                   </div>
                 </div>
               </div>
@@ -189,7 +263,7 @@
     <script src="vendor/jquery.cookie/jquery.cookie.js"> </script>
     <script src="vendor/chart.js/Chart.min.js"></script>
     <script src="vendor/jquery-validation/jquery.validate.min.js"></script>
-    <script src="js/charts-custom.js"></script>
+    <script src="js/config.js"></script>
     <script src="js/front.js"></script>
     <!-- <script>
       /*global $, document*/
@@ -217,7 +291,7 @@
               },
           },
           data: {
-              labels: ["November","November"],
+              labels: ["novber","November"],
               datasets: [
                   {
                       label: "People",
