@@ -34,7 +34,7 @@ setInterval(function(){
                 var pc2 = pc[key];
 
                 for(var key2 of Object.keys(pc2)){
-                    if(key2 == "date"){
+                    if("date" === key2){
                         var day = pc2[key2];
                         if(now == day){
                             disp = true;
@@ -44,12 +44,12 @@ setInterval(function(){
                         }
                     }
                     if(disp == true){
-                        if(key2 == "Total_people"){
+                        if("Total_people" === key2){
                             valp = pc2[key2];           //ค่าคนที่จะนำเข้าฐานข้อมูล mySql 
                             people.innerHTML = valp;
                             //peoples.value = valp;
                         }
-                        else if(key2 == "Total_car"){
+                        else if("Total_car" === key2){
                             valc = pc2[key2];           //ค่ารถที่จะนำเข้าฐานข้อมูล mySql 
                             car.innerHTML = valc;
                             //cars.value = valc;        
