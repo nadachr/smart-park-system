@@ -43,7 +43,7 @@ setInterval(function(){
                             disp = false;
                         }
                     }
-                    if(disp == false){
+                    if(disp == true){
                         if(key2 == "Total_people"){
                             valp = pc2[key2];           //ค่าคนที่จะนำเข้าฐานข้อมูล mySql 
                             people.innerHTML = valp;

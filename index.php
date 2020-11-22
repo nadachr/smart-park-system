@@ -2,8 +2,12 @@
   include 'auth.php';
   include 'condb.php';
 
-  function getTotalCar($con, $month) {
-    $sql = "SELECT SUM(total_car) car FROM total WHERE date LIKE '2020-$month-%'";
+  if(isset($_GET['y'])){
+    $year = $_GET['y'];
+  }else $year = 2020;
+
+  function getTotalCar($con, $year, $month) {
+    $sql = "SELECT SUM(total_car) car FROM total WHERE date LIKE '$year-$month-%'";
     $result = mysqli_query($con, $sql);
     foreach($result as $row){
       $car = $row['car'];
@@ -11,8 +15,8 @@
     return $car;
   }
 
-  function getTotalPp($con, $month) {
-    $sql = "SELECT SUM(total_people) people FROM total WHERE date LIKE '2020-$month-%'";
+  function getTotalPp($con, $year, $month) {
+    $sql = "SELECT SUM(total_people) people FROM total WHERE date LIKE '$year-$month-%'";
     $result = mysqli_query($con, $sql);
     foreach($result as $row){
       $people = $row['people'];
@@ -20,30 +24,30 @@
     return $people;
   }
 
-  $car_jan = getTotalCar($con, 1);
-  $pp_jan = getTotalPp($con, 1);
-  $car_feb = getTotalCar($con, 2);
-  $pp_feb = getTotalPp($con, 2);
-  $car_mar = getTotalCar($con, 3);
-  $pp_mar = getTotalPp($con, 3);
-  $car_apr = getTotalCar($con, 4);
-  $pp_apr = getTotalPp($con, 4);
-  $car_may = getTotalCar($con, 5);
-  $pp_may = getTotalPp($con, 5);
-  $car_june = getTotalCar($con, 6);
-  $pp_june = getTotalPp($con, 6);
-  $car_july = getTotalCar($con, 7);
-  $pp_july = getTotalPp($con, 7);
-  $car_aug = getTotalCar($con, 8);
-  $pp_aug = getTotalPp($con, 8);
-  $car_sep = getTotalCar($con, 9);
-  $pp_sep = getTotalPp($con, 9);
-  $car_oct = getTotalCar($con, 10);
-  $pp_oct = getTotalPp($con, 10);
-  $car_nov = getTotalCar($con, 11);
-  $pp_nov = getTotalPp($con, 11);
-  $car_dec = getTotalCar($con, 12);
-  $pp_dec = getTotalPp($con, 12);
+  $car_jan = getTotalCar($con, $year, $year, 1);
+  $pp_jan = getTotalPp($con, $year, 1);
+  $car_feb = getTotalCar($con, $year, 2);
+  $pp_feb = getTotalPp($con, $year, 2);
+  $car_mar = getTotalCar($con, $year, 3);
+  $pp_mar = getTotalPp($con, $year, 3);
+  $car_apr = getTotalCar($con, $year, 4);
+  $pp_apr = getTotalPp($con, $year, 4);
+  $car_may = getTotalCar($con, $year, 5);
+  $pp_may = getTotalPp($con, $year, 5);
+  $car_june = getTotalCar($con, $year, 6);
+  $pp_june = getTotalPp($con, $year, 6);
+  $car_july = getTotalCar($con, $year, 7);
+  $pp_july = getTotalPp($con, $year, 7);
+  $car_aug = getTotalCar($con, $year, 8);
+  $pp_aug = getTotalPp($con, $year, 8);
+  $car_sep = getTotalCar($con, $year, 9);
+  $pp_sep = getTotalPp($con, $year, 9);
+  $car_oct = getTotalCar($con, $year, 10);
+  $pp_oct = getTotalPp($con, $year, 10);
+  $car_nov = getTotalCar($con, $year, 11);
+  $pp_nov = getTotalPp($con, $year, 11);
+  $car_dec = getTotalCar($con, $year, 12);
+  $pp_dec = getTotalPp($con, $year, 12);
   
 
 ?>
@@ -82,6 +86,12 @@
     <script src="https://www.gstatic.com/firebasejs/8.0.0/firebase-auth.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.0.0/firebase-firestore.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.0.0/firebase-database.js"></script>
+    <link href="https://unpkg.com/bootstrap-table@1.18.0/dist/bootstrap-table.min.css" rel="stylesheet">
+
+    <script src="https://unpkg.com/tableexport.jquery.plugin/tableExport.min.js"></script>
+    <script src="https://unpkg.com/bootstrap-table@1.18.0/dist/bootstrap-table.min.js"></script>
+    <script src="https://unpkg.com/bootstrap-table@1.18.0/dist/bootstrap-table-locale-all.min.js"></script>
+    <script src="https://unpkg.com/bootstrap-table@1.18.0/dist/extensions/export/bootstrap-table-export.min.js"></script>
 
   </head>
   <body>
@@ -171,9 +181,23 @@
             <div class="row">
               <div class="col-lg-12">
                 <div class="block">
-                  <div class="title h3"><strong>สถิติตลอดปี</strong></div>
+                  <div class="row">
+                    <div class="col-8">
+                      <div class="title h3"><strong>สถิติตลอดปี <?=$year?></strong></div>
+                    </div>
+                    <div class="col-4" align="right">
+                      <select class="input-material h5 sel-year" name="year" id="year" onchange="location = this.value;">
+                        <option value="#" selected>เลือกปี</option>
+                        <option value="index.php?y=2020">2020</option>
+                        <option value="index.php?y=2021">2021</option>
+                        <option value="index.php?y=2022">2022</option>
+                        <option value="index.php?y=2023">2023</option>
+                        <option value="index.php?y=2024">2024</option>
+                      </select>
+                    </div>
+                  </div>
                   <div class="table-responsive"> 
-                    <table class="table table-striped table-hover">
+                    <table class="table table-striped table-hover" id="static">
                       <thead>
                         <tr align="center" class="number dashtext-1 h4">
                           <th class="dashtext-3" width="200px">Month</th>
@@ -252,6 +276,25 @@
         </section>
       </div>
     </div>
+    <script>
+      function getSelect(sel){
+        var year = document.getElementById("getYear");
+        var opt;
+
+        for ( var i = 0, len = sel.options.length; i < len; i++) {
+          opt = sel.options[i];
+          if ( opt.selected === true ) {
+            brea;
+          }
+        }
+        return opt;
+      }
+
+      var sel = document.getElementById("year");
+
+      var opt = getSelect(sel);
+      
+    </script>
     <!-- JavaScript files-->
     <script src="vendor/jquery/jquery.min.js"></script>
     <script src="vendor/popper.js/umd/popper.min.js"> </script>
