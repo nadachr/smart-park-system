@@ -21,8 +21,12 @@ var d = date.getDate();
 var m = date.getMonth() + 1;
 var y = date.getFullYear();
 var now = y + "-" + m + "-" + d;
-valp = 0;
-valc = 0;
+valp1 = 0;
+valc1 = 0;
+valp2 = 0;
+valc2 = 0;
+valptt = 0;
+valctt = 0;
 var disp = false;
 
 
@@ -44,16 +48,23 @@ setInterval(function(){
                         }
                     }
                     if(disp == true){
-                        if(key2 == "Total_people"){
-                            valp = pc2[key2];           //ค่าคนที่จะนำเข้าฐานข้อมูล mySql 
-                            people.innerHTML = valp;
-                            //peoples.value = valp;
+                        if(key2 == "Total_people1"){
+                            valp1 = pc2[key2];           //ค่าคนที่จะนำเข้าฐานข้อมูล mySql 
                         }
-                        else if(key2 == "Total_car"){
-                            valc = pc2[key2];           //ค่ารถที่จะนำเข้าฐานข้อมูล mySql 
-                            car.innerHTML = valc;
-                            //cars.value = valc;        
+                        else if(key2 == "Total_car1"){
+                            valc1 = pc2[key2];           //ค่ารถที่จะนำเข้าฐานข้อมูล mySql 
                         }
+                        if(key2 == "Total_people2"){
+                            valp2 = pc2[key2];           //ค่าคนที่จะนำเข้าฐานข้อมูล mySql 
+                        }
+                        else if(key2 == "Total_car2"){
+                            valc2 = pc2[key2];           //ค่ารถที่จะนำเข้าฐานข้อมูล mySql 
+                        }
+                        valptt = valp1 + valp2;
+                        valctt = valc1 + valc2;
+
+                        people.innerHTML = valptt;
+                        car.innerHTML = valctt;
                     }
                 }
             } 
